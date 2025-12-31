@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solid Chat - Decentralized Messaging for the Web</title>
+  <meta name="description" content="Modern, private chat built on the Solid protocol. Your messages, your pod, your control.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gradient-start: #667eea;
+      --gradient-end: #9f7aea;
+      --text: #2d3748;
+      --text-muted: #718096;
+      --bg: #f7f8fc;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+      color: white;
+      padding: 60px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.5;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero .tagline {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary {
+      background: white;
+      color: var(--gradient-start);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 80px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 48px;
+      color: var(--text);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
+    }
+
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Spec Section */
+    .spec-section {
+      background: white;
+      padding: 60px 24px;
+      text-align: center;
+    }
+
+    .spec-section h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .spec-section p {
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+
+    .spec-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gradient-start);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .spec-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--gradient-start);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero .tagline {
+        font-size: 1rem;
+      }
+
+      .btn {
+        padding: 14px 24px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="logo">💬</div>
+    <h1>Solid Chat</h1>
+    <p class="tagline">
+      Modern, private messaging built on the Solid protocol.<br>
+      Your messages, your pod, your control.
+    </p>
+    <div class="cta-buttons">
+      <a href="/app" class="btn btn-primary">
+        <span>Launch App</span>
+        <span>→</span>
+      </a>
+      <a href="https://github.com/solid-chat" class="btn btn-secondary">
+        <span>GitHub</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <h2>Why Solid Chat?</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🔐</div>
+      <h3>Own Your Data</h3>
+      <p>Messages are stored in your Solid pod, not on corporate servers. You decide who sees what.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌐</div>
+      <h3>Decentralized</h3>
+      <p>No central server required. Chat with anyone across any Solid pod provider.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>Modern UI</h3>
+      <p>Clean, fast interface inspired by the best messaging apps. No compromise on experience.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔗</div>
+      <h3>Interoperable</h3>
+      <p>Built on the official Solid Chat specification. Works with other Solid apps.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🆓</div>
+      <h3>Free & Open</h3>
+      <p>Open source, free to use. Bring your own pod or use any provider.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚀</div>
+      <h3>No Lock-in</h3>
+      <p>Switch apps anytime. Your data stays with you, in standard formats.</p>
+    </div>
+  </div>
+</section>
+
+<section class="spec-section">
+  <h2>Built on Open Standards</h2>
+  <p>
+    Solid Chat implements the official Solid Chat specification, ensuring
+    interoperability with other Solid applications and long-term data portability.
+  </p>
+  <a href="https://solid.github.io/chat/" class="spec-link" target="_blank" rel="noopener">
+    Read the Specification →
+  </a>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="/app">App</a>
+    <a href="https://github.com/solid-chat">GitHub</a>
+    <a href="https://solid.github.io/chat/">Spec</a>
+    <a href="https://solidproject.org">Solid Project</a>
+  </div>
+  <p>Made with ♥ for the decentralized web</p>
+</footer>
+
+</body>
+</html>
